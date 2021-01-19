@@ -1,9 +1,13 @@
 import json
 import hashlib
 
+from logger import simple_logger as sl
+from logger import complex_logger as cl
 
 PATH = 'countries.json'
 PATH_2 = 'test.txt'
+
+
 
 class Country():
 
@@ -29,7 +33,8 @@ def string_md5(path):
             m = m.hexdigest()
             yield m
 
-def pervoe_zadanie():
+@sl
+def pervoe_zadanie(i):
     with open(PATH, encoding='utf-8') as f:
         json_data = json.load(f)
 
@@ -37,16 +42,32 @@ def pervoe_zadanie():
             country = item['name']['common']
             country_link = country.replace(' ', '_')
             print(f'{country}  -->   https://wikipedia.org/wiki/{country_link}\n')
+        i = 1
+        return i
+#     просто для наглядности
 
-def vtoroe_zadanie():
+@sl
+def vtoroe_zadanie(i):
     for m in string_md5(PATH_2):
         print(m)
+    i = 2
+    return i
+#   просто для наглядности
 
+@cl('complex.log')
+def vtoroe_zadanie_2(i):
+    # просто дубликат для другого декоратора с хэшем того json файла
+    for m in string_md5(PATH):
+        print(m)
+    i = 2
+    return i
+#   просто для наглядности
 
 def main():
 
-    pervoe_zadanie()
-    vtoroe_zadanie()
+    pervoe_zadanie(2)
+    vtoroe_zadanie(3)
+    vtoroe_zadanie_2(11)
 
 
 
